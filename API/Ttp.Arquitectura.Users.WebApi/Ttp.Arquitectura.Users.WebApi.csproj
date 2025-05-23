@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ttp.Arquitectura.Users.Application\Ttp.Arquitectura.Users.Application.csproj" />
+    <ProjectReference Include="..\Ttp.Arquitectura.Users.Repository\Ttp.Arquitectura.Users.Repository.csproj" />
   </ItemGroup>
 
 </Project>
