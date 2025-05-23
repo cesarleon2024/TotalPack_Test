@@ -9,10 +9,10 @@ namespace Ttp.Arquitectura.Users.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController(AddUserHandler addUserHandler) : ControllerBase
+    public class UserController(AddUserHandler addUserHandler, GetUsersHandler getUsersHandler) : ControllerBase
     {
         private readonly AddUserHandler _addUserHandler = addUserHandler;
-        private readonly GetUsersHandler _getUsersHandler;
+        private readonly GetUsersHandler _getUsersHandler = getUsersHandler;
 
         [HttpGet]
         public IActionResult Get()
