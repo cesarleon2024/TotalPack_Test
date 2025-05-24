@@ -13,6 +13,7 @@ builder.Services.AddDbContext<UsersContext>(options =>
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<AddUserHandler>();
 builder.Services.AddScoped<GetUsersHandler>();
+builder.Services.AddScoped<DeleteUserHandler>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
