@@ -34,7 +34,7 @@ namespace Ttp.Arquitectura.Users.WebApi.Controllers
             var result = _deleteUserHandler.Handle(userId);
 
             if (result)
-                return NoContent(); // Código 204: Eliminación exitosa sin contenido
+                return Ok();
 
             return NotFound($"El usuario con ID {userId} no existe.");
 

@@ -10,5 +10,5 @@ export const environment = {
     API_GetUserById: 'https://localhost:7073/api/User',
     API_AddUser: 'https://localhost:7073/api/User',
     API_EditUser: 'https://localhost:7073/api/User',
-    API_DeleteUser: 'https://localhost:7073/api/User'
+    API_DeleteUser: 'https://localhost:7073/api/User?userId={userId}'
 };

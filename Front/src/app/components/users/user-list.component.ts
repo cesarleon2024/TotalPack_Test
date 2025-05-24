@@ -4,6 +4,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -26,6 +27,7 @@ interface User {
     MatButtonModule,
     MatDialogModule,
     MatIconModule,
+    MatSnackBarModule,
     HttpClientModule
   ],
   template: `
@@ -98,6 +100,9 @@ interface User {
       width: 120px;
       text-align: center;
     }
+    ::ng-deep .mat-mdc-snack-bar-container {
+      margin-top: 60px !important;
+    }
   `]
 })
 export class UserListComponent implements OnInit {
@@ -105,8 +110,9 @@ export class UserListComponent implements OnInit {
   displayedColumns: string[] = ['fullName', 'birth', 'email', 'mainAddress', 'actions'];
 
   constructor(
-    private dialog: MatDialog,
-    private http: HttpClient
+    private http: HttpClient,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -134,7 +140,27 @@ export class UserListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Clicked eliminar', userId);
+        this.http.delete(environment.API_DeleteUser.replace('{userId}', userId.toString()))
+          .subscribe({
+            next: () => {
+              this.fetchUsers();
+              this.snackBar.open('Usuario eliminado correctamente!', 'Cerrar', {
+                duration: 1500,
+                verticalPosition: 'top',
+                horizontalPosition: 'center',
+                panelClass: ['success-snackbar']
+              });
+            },
+            error: (error) => {
+              console.error('Error deleting user:', error);
+              this.snackBar.open('Error al eliminar usuario', 'Cerrar', {
+                duration: 1500,
+                verticalPosition: 'top',
+                horizontalPosition: 'center',
+                panelClass: ['error-snackbar']
+              });
+            }
+          });
       }
     });
   }
