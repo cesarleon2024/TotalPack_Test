@@ -3,6 +3,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -10,7 +11,7 @@ import { environment } from '../../../environments/environment';
 interface User {
   id: number;
   fullName: string;
-  birthDate: string;
+  birth: string;
   email: string;
   mainAddress: string;
 }
@@ -24,6 +25,7 @@ interface User {
     MatPaginatorModule,
     MatButtonModule,
     MatDialogModule,
+    MatIconModule,
     HttpClientModule
   ],
   template: `
@@ -41,9 +43,9 @@ interface User {
           <mat-cell *matCellDef="let user">{{user.fullName}}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="birthDate">
+        <ng-container matColumnDef="birth">
           <mat-header-cell *matHeaderCellDef>Fecha Nacimiento</mat-header-cell>
-          <mat-cell *matCellDef="let user">{{user.birthDate | date}}</mat-cell>
+          <mat-cell *matCellDef="let user">{{user.birth | date:'dd/MM/yyyy'}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="email">
@@ -57,13 +59,13 @@ interface User {
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>&nbsp;</mat-header-cell>
           <mat-cell *matCellDef="let user">
-            <button mat-button color="primary" (click)="onEditUser(user.id)">
-              Editar
+            <button mat-icon-button color="primary" (click)="onEditUser(user.id)" matTooltip="Editar">
+              <mat-icon>edit</mat-icon>
             </button>
-            <button mat-button color="warn" (click)="onDeleteUser(user.id)">
-              Eliminar
+            <button mat-icon-button color="warn" (click)="onDeleteUser(user.id)" matTooltip="Eliminar">
+              <mat-icon>delete</mat-icon>
             </button>
           </mat-cell>
         </ng-container>
@@ -92,11 +94,15 @@ interface User {
     mat-table {
       width: 100%;
     }
+    .mat-column-actions {
+      width: 120px;
+      text-align: center;
+    }
   `]
 })
 export class UserListComponent implements OnInit {
   users: User[] = [];
-  displayedColumns: string[] = ['fullName', 'birthDate', 'email', 'mainAddress', 'actions'];
+  displayedColumns: string[] = ['fullName', 'birth', 'email', 'mainAddress', 'actions'];
 
   constructor(
     private dialog: MatDialog,
