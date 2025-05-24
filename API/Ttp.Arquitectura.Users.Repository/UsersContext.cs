@@ -11,6 +11,7 @@ namespace Ttp.Arquitectura.Users.Repository
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<UserAddress> UserAddress { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -9,10 +9,11 @@ namespace Ttp.Arquitectura.Users.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController(AddUserHandler addUserHandler, GetUsersHandler getUsersHandler) : ControllerBase
+    public class UserController(GetUsersHandler getUsersHandler, AddUserHandler addUserHandler, DeleteUserHandler deleteUserHandler) : ControllerBase
     {
-        private readonly AddUserHandler _addUserHandler = addUserHandler;
         private readonly GetUsersHandler _getUsersHandler = getUsersHandler;
+        private readonly AddUserHandler _addUserHandler = addUserHandler;
+        private readonly DeleteUserHandler _deleteUserHandler = deleteUserHandler;
 
         [HttpGet]
         public IActionResult Get()
@@ -25,6 +26,18 @@ namespace Ttp.Arquitectura.Users.WebApi.Controllers
         {
             _addUserHandler.Handle(request.Adapt<AddUserCommand>());
             return Ok();
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(Guid userId)
+        {
+            var result = _deleteUserHandler.Handle(userId);
+
+            if (result)
+                return Ok();
+
+            return NotFound($"El usuario con ID {userId} no existe.");
+
         }
     }
 }

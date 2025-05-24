@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Ttp.Arquitectura.Users.Domain;
 using Ttp.Arquitectura.Users.Domain.Interfaces.Repository;
 
 namespace Ttp.Arquitectura.Users.Repository
@@ -65,7 +66,18 @@ namespace Ttp.Arquitectura.Users.Repository
             {
                 dbSet.Attach(entityToDelete);
             }
+
+            // Obtener el ID del usuario (suponiendo que TEntity es User)
+            var userId = ((User)(object)entityToDelete).Id; // Conversión explícita si TEntity es genérico
+
+            // Remover las direcciones asociadas al usuario
+            var userAddresses = context.Set<UserAddress>().Where(a => a.IdUser == userId);
+            context.Set<UserAddress>().RemoveRange(userAddresses);
+
+            // Remove User
             dbSet.Remove(entityToDelete);
+
+            context.SaveChanges(); // Guarda los cambios
         }
 
         public virtual void Update(TEntity entityToUpdate)
