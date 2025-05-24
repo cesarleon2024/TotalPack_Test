@@ -6,5 +6,6 @@
         public string FullName { get; set; }
         public DateTime Birth { get; set; }
         public string Email { get; set; }
+        public string MainAddress { get; set; }
     }
 }
